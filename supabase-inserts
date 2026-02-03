@@ -1,0 +1,128 @@
+INSERT INTO classes (class_name,description,duration_minutes,capacity)
+values
+('Fly stretching', 'Aerial stretching exercises',60,10),
+('Yoga', 'Relaxing yoga session',60,20 ),
+('Pilates', 'Strengthening core and flexibility',60,10),
+('Stretching','Full-body flexibility exercises',60,10),
+('Fitness','Full body workout',50,15),
+('Crossfit', 'High intensity training',50,10),
+('Fit+Stretch', 'Strength flexibility workout',60,15),
+('Soft pilates', 'Gentle core training',60,10),
+('Booty & Abs','Glutes core workout',60,15),
+('Boxing','Cardio combat training',50,20);
+
+UPDATE classes
+SET specialization_id = CASE class_name
+    WHEN 'Fly stretching' THEN 1
+    WHEN 'Yoga' THEN 2
+    WHEN 'Pilates' THEN 3
+    WHEN 'Stretching' THEN 4
+    WHEN 'Fitness' THEN 5
+    WHEN 'Crossfit' THEN 6
+    WHEN 'Fit+Stretch' THEN 7
+    WHEN 'Soft pilates' THEN 8
+    WHEN 'Booty & Abs' THEN 9
+    WHEN 'Boxing' THEN 10
+END;
+
+-- Updating class duration for Yoga
+UPDATE classes
+SET duration_minutes = 75
+WHERE class_name = 'Yoga';
+
+-- Updating capacity for Fitness class
+UPDATE classes
+SET capacity = 20
+WHERE class_name = 'Fitness';
+
+ALTER TABLE classes
+ALTER COLUMN class_name SET NOT NULL;
+
+INSERT INTO class_levels (level_name,description)
+values
+('Beginner','Easy introduction exercises'),
+('Intermediate','Moderate intensity workout'),
+('Advanced','Expert level exercises'),
+('Extra Beginner', 'Very gentle exercises for absolute beginners'),
+('Power', 'High intensity strength focus'),
+('Flex', 'Flexibility and stretching emphasis');
+
+ALTER TABLE class_levels
+ALTER COLUMN level_name SET NOT NULL;
+
+INSERT INTO class_occurrences (class_id, start_datetime)
+VALUES
+(1, '2026-02-01 10:00:00'),  
+(2, '2026-02-01 12:00:00'),  
+(3, '2026-02-02 09:00:00'), 
+(4, '2026-02-02 11:00:00'),  
+(5, '2026-02-03 14:00:00'),  
+(6, '2026-02-03 16:00:00'),
+(7, '2026-02-04 08:00:00'),  
+(8, '2026-02-04 10:00:00'),  
+(9, '2026-02-05 18:00:00'),  
+(10, '2026-02-05 20:00:00');
+
+
+INSERT INTO class_level_assignment (class_id, level_id)
+VALUES
+-- Fly Stretching
+(1, 1), -- Beginner
+(1, 4), -- Extra Beginner
+(1, 6), -- Flex
+
+-- Yoga
+(2, 1), -- Beginner
+(2, 2), -- Intermediate
+(2, 6), -- Flex
+
+-- Pilates
+(3, 1), -- Beginner
+(3, 2), -- Intermediate
+(3, 6), -- Flex
+
+-- Stretching
+(4, 1), -- Beginner
+(4, 4), -- Extra Beginner
+(4, 6), -- Flex
+
+-- Fitness
+(5, 2), -- Intermediate
+(5, 5), -- Power
+
+-- Crossfit
+(6, 2), -- Intermediate
+(6, 3), -- Advanced
+(6, 5), -- Power
+
+-- Fit+Stretch
+(7, 1), -- Beginner
+(7, 2), -- Intermediate
+(7, 6); -- Flex
+
+
+INSERT INTO booking (occurrence_id, member_id)
+VALUES
+(1, 5),
+(2, 6),
+(3, 1),
+(4, 2),
+(5, 8),
+(6, 9),
+(7, 10),
+(8, 3),
+(9, 4),
+(10, 7);
+
+INSERT INTO attendance (occurrence_id, member_id)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 10),
+(10, 10);
